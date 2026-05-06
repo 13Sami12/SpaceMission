@@ -1,43 +1,43 @@
 # SpaceMission
 
-Това е прост C# проект, който симулира мисия за намиране на най-краткия път от астронавт до космическа станция.
+This is a simple C# project that simulates a mission to find the shortest path from astronauts to a space station.
 
-## Какво прави
+## What it does
 
-- генерира случайна карта или приема ръчен вход от потребителя
-- използва Dijkstra алгоритъм за намиране на най-евтиния път
-- работи с различни символи за:
-  - `O` - отворена клетка
-  - `X` - астероид, непреодолим
-  - `D` - космически отпадъци, по-скъпа клетка
-  - `F` - космическа станция
-  - `S1`, `S2`, `S3` - стартови позиции на астронавти
+- Generates a random map or takes manual input from the user
+- Uses Dijkstra's algorithm to find the cheapest path
+- Works with different symbols for:
+  - `O` - open cell
+  - `X` - asteroid, impassable
+  - `D` - space debris, more expensive cell
+  - `F` - space station
+  - `S1`, `S2`, `S3` - astronaut starting positions
 
-## Как да стартираш
+## How to run
 
-1. Отвори папката на проекта в VS Code.
-2. Отвори терминал.
-3. Изпълни:
+1. Open the project folder in VS Code.
+2. Open the terminal.
+3. Run:
 
 ```powershell
 cd C:\Project\SpaceMission
 dotnet run
 ```
 
-4. Избери режим:
-   - `1` - ръчно въвеждане на карта
-   - `2` - генериране на случайна карта
-   - `3` - изход
+4. Choose mode:
+   - `1` - manual map input
+   - `2` - generate random map
+   - `3` - exit
 
-Ако искаш да пробваш бързо автоматично, използвай:
+If you want to try it quickly automatically, use:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File run_demo.ps1
 ```
 
-## Пример за ръчен вход
+## Example for manual input
 
-При избиране на режим `1` програмата иска размерите на картата и после ред по ред:
+When choosing mode `1`, the program asks for map dimensions and then row by row:
 
 ```
 3
@@ -47,19 +47,19 @@ O D O
 X O O
 ```
 
-## Как работи
+## How it works
 
-- `InputParser` чете входа и проверява дали е валиден.
-- `MapGenerator` създава случайна карта с поне един астронавт и една станция.
-- `DijkstraPathfinder` намира най-краткия път, като взима предвид различните разходи за преминаване.
-- `SpaceMission` изпълнява търсенето за всички астронавти и показва резултатите.
+- `InputParser` reads the input and checks if it's valid.
+- `MapGenerator` creates a random map with at least one astronaut and one station.
+- `DijkstraPathfinder` finds the shortest path, considering different costs for moving.
+- `SpaceMission` runs the search for all astronauts and displays the results.
 
-## Използвани технологии
+## Technologies used
 
 - .NET 10
 - C#
 
-## Забележки
+## Notes
 
-- Проектът е подходящ за малка демонстрация на алгоритми и работа с конзолен вход.
-- Добре е да имаш инсталиран .NET SDK, за да можеш да стартираш с `dotnet run`.
+- The project is good for a small demo of algorithms and console input handling.
+- Make sure you have .NET SDK installed to run with `dotnet run`.
