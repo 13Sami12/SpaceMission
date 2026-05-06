@@ -1,0 +1,20 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code files
+.vscode/
+
+# Python virtual environment
+.venv/
+
+# Temporary files
+*.log
+*.tmp
