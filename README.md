@@ -1,17 +1,22 @@
 # SpaceMission
 
-This is a simple C# project that simulates a mission to find the shortest path from astronauts to a space station.
+This is a C# console project that simulates a mission to find the shortest path from astronauts to a space station on a cosmic map.
 
 ## What it does
 
 - Generates a random map or takes manual input from the user
-- Uses Dijkstra's algorithm to find the cheapest path
-- Works with different symbols for:
-  - `O` - open cell
-  - `X` - asteroid, impassable
-  - `D` - space debris, more expensive cell
-  - `F` - space station
-  - `S1`, `S2`, `S3` - astronaut starting positions
+- Supports both `Dijkstra` and `A*` pathfinding algorithms
+- Displays mission output with enhanced console colors for readability
+- Supports optional email notifications through SMTP
+- Includes unit tests covering parsing, map generation, pathfinding, and email service
+
+## Map symbols
+
+- `O` - open cell
+- `X` - asteroid, impassable
+- `D` - space debris, higher traversal cost
+- `F` - space station
+- `S1`, `S2`, `S3` - astronaut starting positions
 
 ## How to run
 
@@ -29,13 +34,15 @@ dotnet run
    - `2` - generate random map
    - `3` - exit
 
+5. Follow the prompts to select the pathfinding algorithm, enter map data, and optionally send an email report.
+
 If you want to try it quickly automatically, use:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File run_demo.ps1
 ```
 
-## Example for manual input
+## Example manual input
 
 When choosing mode `1`, the program asks for map dimensions and then row by row:
 
@@ -47,19 +54,35 @@ O D O
 X O O
 ```
 
+## New features added
+
+- `AStarPathfinder` with heuristic-driven search
+- `EmailService` using SMTP to send mission summaries
+- `ConsoleEx` for colored output and better console interactions
+- `SpaceMission.Tests` project with xUnit tests
+
 ## How it works
 
-- `InputParser` reads the input and checks if it's valid.
-- `MapGenerator` creates a random map with at least one astronaut and one station.
-- `DijkstraPathfinder` finds the shortest path, considering different costs for moving.
-- `SpaceMission` runs the search for all astronauts and displays the results.
+- `InputParser` reads and validates console input
+- `MapGenerator` creates playable maps and ensures there is one station and at least one astronaut
+- `DijkstraPathfinder` and `AStarPathfinder` compute shortest paths
+- `SpaceMission` summarizes mission results and prints them on screen
+
+## Testing
+
+Run the unit tests from the `SpaceMission.Tests` project:
+
+```powershell
+dotnet test .\SpaceMission.Tests\SpaceMission.Tests.csproj --no-restore
+```
 
 ## Technologies used
 
 - .NET 10
 - C#
+- xUnit for unit testing
 
 ## Notes
 
-- The project is good for a small demo of algorithms and console input handling.
-- Make sure you have .NET SDK installed to run with `dotnet run`.
+- Ensure .NET SDK is installed to run with `dotnet run`.
+- If SMTP is used, configure valid server settings before sending email reports.
