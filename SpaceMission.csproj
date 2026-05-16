@@ -5,8 +5,13 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>SpaceMission</AssemblyName>
     <RootNamespace>SpaceMission</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="SpaceMission.Tests\**\*.cs" />
+  </ItemGroup>
 
 </Project>

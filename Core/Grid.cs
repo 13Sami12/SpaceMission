@@ -67,7 +67,6 @@ namespace SpaceMission.Core
         
         public void PrintWithPath(IReadOnlyList<(int row, int col)> path)
         {
-            
             var pathSet = new HashSet<(int, int)>(path.Skip(1).SkipLast(1));
 
             for (int r = 0; r < Rows; r++)
@@ -78,21 +77,52 @@ namespace SpaceMission.Core
                         ? Cell.Path
                         : _cells[r, c].Symbol;
 
-                    Console.Write(symbol.PadRight(3));
+                    ConsoleEx.WriteSymbol(symbol);
                 }
                 Console.WriteLine();
             }
         }
 
-        
         public void Print()
         {
             for (int r = 0; r < Rows; r++)
             {
                 for (int c = 0; c < Cols; c++)
-                    Console.Write(_cells[r, c].Symbol.PadRight(3));
+                    ConsoleEx.WriteSymbol(_cells[r, c].Symbol);
                 Console.WriteLine();
             }
+        }
+
+        public string RenderTextWithPath(IReadOnlyList<(int row, int col)> path)
+        {
+            var pathSet = new HashSet<(int, int)>(path.Skip(1).SkipLast(1));
+            var builder = new System.Text.StringBuilder();
+
+            for (int r = 0; r < Rows; r++)
+            {
+                for (int c = 0; c < Cols; c++)
+                {
+                    string symbol = pathSet.Contains((r, c))
+                        ? Cell.Path
+                        : _cells[r, c].Symbol;
+                    builder.Append(symbol.PadRight(3));
+                }
+                builder.AppendLine();
+            }
+
+            return builder.ToString();
+        }
+
+        public string RenderText()
+        {
+            var builder = new System.Text.StringBuilder();
+            for (int r = 0; r < Rows; r++)
+            {
+                for (int c = 0; c < Cols; c++)
+                    builder.Append(_cells[r, c].Symbol.PadRight(3));
+                builder.AppendLine();
+            }
+            return builder.ToString();
         }
     }
 }

@@ -95,7 +95,7 @@ namespace SpaceMission.Core
             var grid = new Grid(cells);
 
             
-            var pathfinder = new DijkstraPathfinder();
+            var pathfinder = new AStarPathfinder();
             var astronauts = grid.FindAstronauts().ToList();
             var station = grid.FindStation()!;
 

@@ -89,9 +89,75 @@ namespace SpaceMission
 
         static void ExecuteMission(Grid grid)
         {
-            var mission = new Core.SpaceMission(grid, new DijkstraPathfinder());
+            IPathfinder pathfinder = SelectPathfinder();
+            var mission = new Core.SpaceMission(grid, pathfinder);
             mission.Run();
             Console.WriteLine();
+
+            if (AskYesNo("Send mission summary by email? (y/n): "))
+            {
+                var settings = PromptEmailSettings();
+                try
+                {
+                    EmailService.SendMissionSummary(settings, mission.GetSummary());
+                    ConsoleEx.WriteLine("✔ Email sent successfully.", ConsoleColor.Green);
+                }
+                catch (Exception ex)
+                {
+                    ConsoleEx.WriteLine($"❌ Email failed: {ex.Message}", ConsoleColor.Red);
+                }
+            }
+        }
+
+        static IPathfinder SelectPathfinder()
+        {
+            ConsoleEx.WriteHeader("Choose pathfinding algorithm:");
+            Console.WriteLine("  [1] Dijkstra (safe for small maps)");
+            Console.WriteLine("  [2] A* (recommended for larger maps)");
+            Console.Write("Choice (default 2): ");
+
+            string choice = Console.ReadLine()?.Trim() ?? "";
+            Console.WriteLine();
+            return choice == "1" ? new DijkstraPathfinder() : new AStarPathfinder();
+        }
+
+        static bool AskYesNo(string prompt)
+        {
+            while (true)
+            {
+                Console.Write(prompt);
+                string? answer = Console.ReadLine()?.Trim().ToLower();
+                if (string.IsNullOrEmpty(answer) || answer == "n" || answer == "no")
+                    return false;
+                if (answer == "y" || answer == "yes")
+                    return true;
+
+                Console.WriteLine("Please answer 'y' or 'n'.");
+            }
+        }
+
+        static string PromptText(string prompt, string? defaultValue = null)
+        {
+            Console.Write(prompt);
+            string? input = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(input))
+                return defaultValue ?? string.Empty;
+            return input.Trim();
+        }
+
+        static EmailSettings PromptEmailSettings()
+        {
+            ConsoleEx.WriteHeader("SMTP Email Configuration:");
+            string host = PromptText("SMTP host (e.g. smtp.gmail.com): ", "smtp.gmail.com");
+            int port = int.TryParse(PromptText("SMTP port (587): ", "587"), out int parsed) ? parsed : 587;
+            bool enableSsl = AskYesNo("Enable SSL? (y/n, default y): ");
+            string sender = PromptText("From email: ");
+            string recipient = PromptText("To email: ");
+            string username = PromptText("SMTP username: ");
+            string password = PromptText("SMTP password: ");
+            Console.WriteLine();
+
+            return new EmailSettings(host, port, sender, recipient, username, password, enableSsl);
         }
     }
 }
